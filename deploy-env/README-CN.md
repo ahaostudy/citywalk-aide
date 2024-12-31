@@ -39,7 +39,7 @@ docker exec namenode hdfs dfs -put /hdfs/example/sales_data.csv /user/example/
 
 ### 2. 提交程序
 
-- 方式一：通过 [pyspark-on-yarn.sh](./script/pyspark-env-init.sh) 脚本提交程序
+- 方式一：通过 [pyspark-on-yarn.sh](script/pyspark-env-init.sh) 脚本提交程序
 
 ```shell
 ./script/pyspark-on-yarn.sh /code/example/example.py
@@ -54,22 +54,22 @@ docker exec master spark-submit \
   /code/example/example.py
 ```
 
-补充: 此处接收的路径是 Spark 容器内的路径，是通过 Docker 挂载卷将本地的 [code](./code) 目录挂载到容器内的 `/code` 中的。
+补充: 此处接收的路径是 Spark 容器内的路径，是通过 Docker 挂载卷将本地的 [code](code) 目录挂载到容器内的 `/code` 中的。
 
 ## 节点拓展
 
 ### Node Manager
 
-先在 [docker-compose.yml](./docker-compose.yml) 中添加新节点，同时参考 [pyspark-on-yarn.sh](./script/pyspark-env-init.sh)
+先在 [docker-compose.yml](docker-compose.yml) 中添加新节点，同时参考 [pyspark-on-yarn.sh](script/pyspark-env-init.sh)
 ，在新的 NodeManager 中安装 Python 环境。
 
 ### Data Node
 
-直接在 [docker-compose.yml](./docker-compose.yml) 中添加新节点，注意修改端口映射和配置文件挂载即可。
+直接在 [docker-compose.yml](docker-compose.yml) 中添加新节点，注意修改端口映射和配置文件挂载即可。
 
 ### Spark Worker
 
-直接在 [docker-compose.yml](./docker-compose.yml) 中添加新节点，注意修改端口映射和配置文件挂载即可。
+直接在 [docker-compose.yml](docker-compose.yml) 中添加新节点，注意修改端口映射和配置文件挂载即可。
 
 ## 建议
 

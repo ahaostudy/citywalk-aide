@@ -2,3 +2,6 @@
 .vscode
 **/*.log
 **/.DS_Store
+**/dependencies
+.env
+__pycache__

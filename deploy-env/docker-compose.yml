@@ -8,10 +8,12 @@ services:
     environment:
       - CLUSTER_NAME=test
     env_file:
-      - ./hadoop.env
+      - hadoop.env
     ports:
       - 50070:50070
-  
+    networks:
+      - network-citywalk-aide
+
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:1.1.0-hadoop2.7.1-java8
     container_name: resourcemanager
@@ -20,9 +22,11 @@ services:
       - datanode1
       - datanode2
     env_file:
-      - ./hadoop.env
+      - hadoop.env
     ports:
       - 8088:8088
+    networks:
+      - network-citywalk-aide
 
   historyserver:
     image: bde2020/hadoop-historyserver:1.1.0-hadoop2.7.1-java8
@@ -34,9 +38,11 @@ services:
     volumes:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
-      - ./hadoop.env
+      - hadoop.env
     ports:
       - 8188:8188
+    networks:
+      - network-citywalk-aide
 
   nodemanager1:
     image: bde2020/hadoop-nodemanager:1.1.0-hadoop2.7.1-java8
@@ -46,10 +52,12 @@ services:
       - datanode1
       - datanode2
     env_file:
-      - ./hadoop.env
+      - hadoop.env
     ports:
       - 8042:8042
-  
+    networks:
+      - network-citywalk-aide
+
   datanode1:
     image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
     container_name: datanode1
@@ -58,8 +66,15 @@ services:
     volumes:
       - hadoop_datanode1:/hadoop/dfs/data
     env_file:
-      - ./hadoop.env
-  
+      - hadoop.env
+    environment:
+      HDFS_CONF_dfs_datanode_hostname: datanode1
+      HDFS_CONF_dfs_datanode_http_address: 0.0.0.0:50075
+    ports:
+      - "50075:50075"
+    networks:
+      - network-citywalk-aide
+
   datanode2:
     image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
     container_name: datanode2
@@ -68,8 +83,15 @@ services:
     volumes:
       - hadoop_datanode2:/hadoop/dfs/data
     env_file:
-      - ./hadoop.env
-  
+      - hadoop.env
+    environment:
+      HDFS_CONF_dfs_datanode_hostname: datanode2
+      HDFS_CONF_dfs_datanode_http_address: 0.0.0.0:50076
+    ports:
+      - "50076:50076"
+    networks:
+      - network-citywalk-aide
+
   datanode3:
     image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
     container_name: datanode3
@@ -77,8 +99,15 @@ services:
       - namenode
     volumes:
       - hadoop_datanode3:/hadoop/dfs/data
+    environment:
+      HDFS_CONF_dfs_datanode_hostname: datanode3
+      HDFS_CONF_dfs_datanode_http_address: 0.0.0.0:50077
+    ports:
+      - "50077:50077"
     env_file:
-      - ./hadoop.env
+      - hadoop.env
+    networks:
+      - network-citywalk-aide
 
   master:
     image: gettyimages/spark:2.3.0-hadoop-2.8
@@ -107,6 +136,9 @@ services:
     volumes:
       - ./spark/master:/conf
       - ./code:/code
+      - ./dependencies:/dependencies
+    networks:
+      - network-citywalk-aide
 
   worker:
     image: gettyimages/spark:2.3.0-hadoop-2.8
@@ -131,10 +163,17 @@ services:
     volumes:
       - ./spark/worker:/conf
       - ./code:/code
+      - ./dependencies:/dependencies
+    networks:
+      - network-citywalk-aide
 
 volumes:
   hadoop_namenode:
+  hadoop_namenode2:
   hadoop_datanode1:
   hadoop_datanode2:
   hadoop_datanode3:
   hadoop_historyserver:
+
+networks:
+  network-citywalk-aide:

@@ -1,0 +1,9 @@
+python-dotenv==0.10.5
+openai==0.2.0
+pydantic==0.32.2
+selenium==3.141.0
+schedule==0.6.0
+attrs==20.3.0
+beautifulsoup4==4.7.1
+pyspark==2.4.8
+hdfs==2.5.8

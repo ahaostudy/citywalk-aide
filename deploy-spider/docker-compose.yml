@@ -1,0 +1,45 @@
+version: "3"
+services:
+  chrome:
+    image: selenium/node-chrome:latest
+    platform: linux/amd64
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - JAVA_OPTS=-Dotel.sdk.disabled=true
+      - JAVA_OPTS=-Dselenium.LOGGER.level=DEBUG
+    networks:
+      - network-citywalk-aide
+    ports:
+      - "5900:5900"
+      - "7900:7900"
+
+  selenium-hub:
+    image: selenium/hub:latest
+    platform: linux/amd64
+    container_name: selenium-hub
+    environment:
+      - JAVA_OPTS=-Dotel.sdk.disabled=true
+      - JAVA_OPTS=-Dselenium.LOGGER.level=DEBUG
+    networks:
+      - network-citywalk-aide
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+  clickhouse:
+    image: yandex/clickhouse-server
+    container_name: clickhouse
+    ports:
+      - "8123:8123"  # HTTP port
+      - "9000:9000"  # Native client port
+      - "9009:9009"  # Prometheus monitoring port
+      - "8124:8124"  # MySQL port
+
+networks:
+  network-citywalk-aide:

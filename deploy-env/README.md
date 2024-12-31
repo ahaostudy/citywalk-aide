@@ -39,7 +39,7 @@ docker exec namenode hdfs dfs -put /hdfs/example/sales_data.csv /user/example/
 
 ### 2. Submitting Applications
 
-- Method 1: Submit applications using the [pyspark-on-yarn.sh](./script/pyspark-on-yarn.sh) script
+- Method 1: Submit applications using the [pyspark-on-yarn.sh](script/pyspark-on-yarn.sh) script
 
 ```shell
 ./script/pyspark-on-yarn.sh /code/example/example.py
@@ -54,17 +54,17 @@ docker exec master spark-submit \
   /code/example/example.py
 ```
 
-Note: The paths accepted here are paths within the Spark container, which are mapped from the local [code](./code) directory to the `/code` directory inside the container.
+Note: The paths accepted here are paths within the Spark container, which are mapped from the local [code](code) directory to the `/code` directory inside the container.
 
 ## Node Scaling
 
 ### Node Manager
 
-Add a new node in the [docker-compose.yml](./docker-compose.yml) file, and refer to [pyspark-on-yarn.sh](./script/pyspark-on-yarn.sh) to install the Python environment in the new NodeManager.
+Add a new node in the [docker-compose.yml](docker-compose.yml) file, and refer to [pyspark-on-yarn.sh](script/pyspark-on-yarn.sh) to install the Python environment in the new NodeManager.
 
 ### Data Node
 
-Simply add a new node in the [docker-compose.yml](./docker-compose.yml) file while ensuring to modify port mapping and configuration file mounts as needed.
+Simply add a new node in the [docker-compose.yml](docker-compose.yml) file while ensuring to modify port mapping and configuration file mounts as needed.
 
 ### Spark Worker
 
